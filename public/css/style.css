@@ -1,0 +1,142 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+section h2 {
+    font-weight: 600;
+}
+
+.card img {
+    height: 200px;
+    object-fit: cover;
+}
+
+footer {
+    font-size: 0.9rem;
+}
+table th, table td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.btn-sm {
+    margin: 0 2px;
+}
+
+table th, table td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.btn-sm {
+    margin: 0 2px;
+}
+.unavailable-product {
+  filter: grayscale(100%);
+  opacity: 0.5;
+  pointer-events: none; /* disables clicks on row if needed */
+}
+/* Unavailable row styling */
+.unavailable-product {
+  filter: grayscale(100%);
+  opacity: 0.6;
+  position: relative;
+}
+
+/* Overlay "Unavailable" text */
+.unavailable-label {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+/* Image styling */
+.product-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.product-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 8px;
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+}
+/* Make unavailable product black & white */
+.unavailable-product {
+  filter: grayscale(100%);
+  opacity: 0.6;
+  position: relative;
+}
+
+/* Product card container */
+.product-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Product image */
+.product-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 8px;
+}
+
+/* Product info */
+.product-info {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Overlay text for unavailable */
+.unavailable-label {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+/* Make unavailable products grayscale */
+.unavailable-product {
+  filter: grayscale(100%);
+  opacity: 0.6;
+  pointer-events: none; /* disable clicking */
+  position: relative;
+}
+
+.unavailable-product .unavailable-label {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+}

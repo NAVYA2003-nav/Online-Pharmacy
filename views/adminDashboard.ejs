@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <!-- ✅ Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .unavailable-product {
+      filter: grayscale(100%);
+      opacity: 0.6;
+      position: relative;
+    }
+    .unavailable-label {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: red;
+      color: white;
+      padding: 3px 6px;
+      font-size: 12px;
+      border-radius: 5px;
+    }
+    .product-card {
+      position: relative;
+      display: inline-block;
+    }
+    .product-img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body class="container mt-4">
+
+  <!-- ✅ Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Welcome, <%= admin ? admin.email : "Admin" %> 👋</h1>
+    <div>
+      <a href="/" class="btn btn-primary me-2">🏠 Home</a>
+      <a href="/logout" class="btn btn-danger">Logout</a>
+    </div>
+  </div>
+
+  <!-- ✅ Stats Row -->
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card text-center bg-primary text-white p-3">
+        <h5>Total Products</h5>
+        <h2><%= totalProducts %></h2>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card text-center bg-success text-white p-3">
+        <h5>Total Orders</h5>
+        <h2><%= totalOrders %></h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ Products Table -->
+  <h2>Products</h2>
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price (₹)</th>
+        <th>Stock</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% products.forEach(product => { %>
+        <tr class="<%= product.available == 0 ? 'unavailable-product' : '' %>">
+          <td><%= product.id %></td>
+          <td>
+            <div class="product-card">
+              <img src="<%= product.image %>" alt="<%= product.name %>">
+              <div class="product-info"><%= product.name %></div>
+            </div>
+          </td>
+          <td><%= product.description %></td>
+          <td>₹<%= product.price %></td>
+
+          <!-- ✅ Stock column -->
+          <td>
+            <form method="post" action="/admin/update-stock/<%= product.id %>" class="d-flex">
+              <input 
+                type="number" 
+                name="stock" 
+                value="<%= product.stock %>" 
+                min="0" 
+                class="form-control form-control-sm me-2" 
+                style="width:80px"
+              >
+              <button type="submit" class="btn btn-sm btn-primary">Update</button>
+            </form>
+          </td>
+
+          <td>
+            <% if (product.stock <= 0) { %>
+              ❌ Out of Stock
+            <% } else if (product.available == 1) { %>
+              ✅ Available
+            <% } else { %>
+              ❌ Unavailable
+            <% } %>
+          </td>
+
+          <td>
+            <a href="/admin/products/toggle/<%= product.id %>" 
+              class="btn btn-sm <%= product.available == 1 ? 'btn-danger' : 'btn-success' %>">
+              <%= product.available == 1 ? "Make Unavailable" : "Make Available" %>
+            </a>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+  <!-- ✅ Add Product Form -->
+  <h2>Add Product</h2>
+  <form action="/admin/products/add" method="POST" enctype="multipart/form-data" class="row g-3">
+    <div class="col-md-3">
+      <input type="text" name="name" class="form-control" placeholder="Product name" required />
+    </div>
+    <div class="col-md-3">
+      <input type="text" name="description" class="form-control" placeholder="Description" required />
+    </div>
+    <div class="col-md-2">
+      <input type="number" name="price" class="form-control" placeholder="Price" step="0.01" required />
+    </div>
+    <div class="col-md-3">
+      <input type="file" name="image" class="form-control" accept="image/*" required />
+    </div>
+    <div class="col-md-1">
+      <button type="submit" class="btn btn-primary">➕ Add</button>
+    </div>
+  </form>
+
+  <!-- ✅ Orders Section -->
+  <h2 class="mt-5">Orders</h2>
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Payment</th>
+        <th>Total</th>
+        <th>Prescription</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% orders.forEach((order, index) => { %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= order.name %></td>
+          <td><%= order.address %></td>
+          <td><%= order.payment %></td>
+          <td>₹<%= order.total %></td>
+          <td>
+            <% if (order.prescription) { %>
+              <a href="<%= order.prescription %>" target="_blank" class="btn btn-sm btn-info">View Prescription</a>
+            <% } else { %>
+              <span class="text-muted">No Prescription</span>
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</body>
+</html>
